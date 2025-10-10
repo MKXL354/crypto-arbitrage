@@ -18,6 +18,7 @@ public class CryptoArbitrageService {
     private final WallexProvider wallexProvider;
 
     public void findArbitrageOpportunity() {
+//        TODO: add actual logic here
         System.out.println(nobitexProvider.getNobitexMarketStats(Coin.BTC, Coin.RLS));
         System.out.println(wallexProvider.getWallexCoinPriceResponse(Coin.BTC));
     }

@@ -6,5 +6,10 @@ external:
     base-api-url: https://apiv2.nobitex.ir
 
   bot:
-    token: ${BOT_TOKEN}
-    base-api-url: https://tapi.bale.ai/bot${bot.token}
+    token:
+    base-api-url: https://tapi.bale.ai/bot${external.bot.token}
+
+scheduler:
+  arbitrage:
+    enabled: false
+    interval-secs: 5
