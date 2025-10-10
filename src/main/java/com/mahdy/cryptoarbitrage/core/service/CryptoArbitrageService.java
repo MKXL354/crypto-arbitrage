@@ -5,6 +5,7 @@ import com.mahdy.cryptoarbitrage.invoker.provider.BotProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.NobitexProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.WallexProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CryptoArbitrageService {
 
     private final NobitexProvider nobitexProvider;
@@ -29,8 +31,8 @@ public class CryptoArbitrageService {
                       Nobitex Price: %s
                       Wallex Price: %s
                       """.formatted(nobitexPrice, wallexPrice);
-        System.out.println(text);
 //        TODO: make this async
+        log.info(text);
         for (Long chatId : chatIdSet.getChatIds()) {
             botProvider.sendMessage(chatId, text);
         }
