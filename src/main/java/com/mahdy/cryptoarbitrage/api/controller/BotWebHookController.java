@@ -20,7 +20,6 @@ public class BotWebHookController implements BotWebHookFacade {
 
     @Override
     public void registerUpdate(BotUpdateRequest botUpdateRequest) {
-//        TODO: service and strategy to handle different messages in the future
         userService.registerUser(botUpdateRequest);
     }
 }
