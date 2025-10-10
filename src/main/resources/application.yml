@@ -1,0 +1,10 @@
+external:
+  wallex:
+    base-api-url: https://api.wallex.ir
+
+  nobitex:
+    base-api-url: https://apiv2.nobitex.ir
+
+  bot:
+    token: ${BOT_TOKEN}
+    base-api-url: https://tapi.bale.ai/bot${bot.token}

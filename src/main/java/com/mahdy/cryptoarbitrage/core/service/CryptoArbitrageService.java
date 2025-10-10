@@ -4,7 +4,6 @@ import com.mahdy.cryptoarbitrage.core.model.enumeration.Coin;
 import com.mahdy.cryptoarbitrage.invoker.provider.NobitexProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.WallexProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CryptoArbitrageService {
 
     private final NobitexProvider nobitexProvider;

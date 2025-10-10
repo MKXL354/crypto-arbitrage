@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mehdi Kamali
  * @since 10/10/2025
  */
-@FeignClient(name = "nobitex", url = "https://apiv2.nobitex.ir")
+@FeignClient(name = "nobitex", url = "${external.nobitex.base-api-url}")
 public interface NobitexFeignClient {
 
-    @GetMapping("/market/stats")
+    String MARKET_STATS = "/market/stats";
+
+    @GetMapping(MARKET_STATS)
     NobitexMarketStatsResponse getMarketStats(@RequestParam String srcCurrency, @RequestParam String dstCurrency);
 }

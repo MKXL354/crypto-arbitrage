@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mehdi Kamali
  * @since 10/10/2025
  */
-@FeignClient(name = "wallex", url = "https://api.wallex.ir")
+@FeignClient(name = "wallex", url = "${external.wallex.base-api-url}")
 public interface WallexFeignClient {
 
-    @GetMapping("/v1/coin-price-list")
+    String V1_COIN_PRICE_LIST = "/v1/coin-price-list";
+
+    @GetMapping(V1_COIN_PRICE_LIST)
     WallexCoinPriceResponse getCoinPrice(@RequestParam String keys);
 }
