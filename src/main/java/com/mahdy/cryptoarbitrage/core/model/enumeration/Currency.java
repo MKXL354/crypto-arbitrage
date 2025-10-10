@@ -7,7 +7,7 @@ import lombok.Getter;
  * @since 10/10/2025
  */
 @Getter
-public enum Coin {
+public enum Currency {
 
     BTC("btc"),
     RLS("rls"),
@@ -15,7 +15,7 @@ public enum Coin {
 
     private final String lowerCaseName;
 
-    Coin(String lowerCaseName) {
+    Currency(String lowerCaseName) {
         this.lowerCaseName = lowerCaseName;
     }
 }

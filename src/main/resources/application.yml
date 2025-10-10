@@ -14,7 +14,7 @@ external:
 
 scheduler:
   arbitrage:
-    enabled: false
+    enabled: true
     interval-secs: 5
 
 service:
