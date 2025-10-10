@@ -18,3 +18,4 @@ public class CryptoArbitrageApp {
         SpringApplication.run(CryptoArbitrageApp.class, args);
     }
 }
+//TODO: more logging
