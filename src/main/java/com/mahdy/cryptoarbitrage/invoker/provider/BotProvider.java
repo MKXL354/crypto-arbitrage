@@ -21,7 +21,7 @@ public class BotProvider {
         BotSendMessageRequest request = new BotSendMessageRequest();
         request.setChat_id(chatId);
         request.setText(text);
-        log.info("sending message {} to chat id {}", text, chatId);
+        log.info("sending message: {} to chat id: {}", text, chatId);
         botFeignClient.sendMessage(request);
     }
 }

@@ -27,7 +27,7 @@ public class CryptoArbitrageService {
     private final NobitexProvider nobitexProvider;
     private final WallexProvider wallexProvider;
     private final BotProvider botProvider;
-    private final ChatIdSet chatIdSet;
+    private final ChatIdProvider chatIdProvider;
 
     public void findArbitrageOpportunity() {
 //        TODO: only BTC for now? others require extra impl and not just enum
@@ -37,14 +37,14 @@ public class CryptoArbitrageService {
         String text = generateTextMessage(Currency.BTC, nobitexPrice, wallexPrice);
 //        TODO: make this async
         log.info(text);
-        for (Long chatId : chatIdSet.getChatIds()) {
+        for (Long chatId : chatIdProvider.getChatIds()) {
             botProvider.sendMessage(chatId, text);
         }
     }
 
     private String generateTextMessage(Currency currency, BigDecimal nobitexPrice, BigDecimal wallexPrice) {
         LocalDateTime now = LocalDateTime.now();
-        String formattedTime = now.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss"));
+        String formattedTime = now.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy, HH:mm:ss"));
         String formattedNobitexPrice = NumberFormat.getInstance().format(nobitexPrice);
         String formattedWallexPrice = NumberFormat.getInstance().format(wallexPrice);
         return """

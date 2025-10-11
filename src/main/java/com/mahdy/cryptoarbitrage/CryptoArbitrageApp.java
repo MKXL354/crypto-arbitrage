@@ -18,6 +18,3 @@ public class CryptoArbitrageApp {
         SpringApplication.run(CryptoArbitrageApp.class, args);
     }
 }
-//TODO: more logging? facade request/response, external request/response, scheduler
-//TODO: server (port), bot token, feign client (url) config
-//TODO: is error handling even needed? (only for registerUpdate in API?)

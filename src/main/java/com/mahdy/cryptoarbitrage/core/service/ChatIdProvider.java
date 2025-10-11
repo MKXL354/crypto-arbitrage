@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 @Getter
-public class ChatIdSet {
+public class ChatIdProvider {
 
     private final Set<Long> chatIds = ConcurrentHashMap.newKeySet();
 }

@@ -19,4 +19,4 @@ scheduler:
 
 service:
   arbitrage:
-    registration-token:
+    subscription-token:

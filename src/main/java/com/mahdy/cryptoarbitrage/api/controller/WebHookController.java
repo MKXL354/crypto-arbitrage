@@ -1,8 +1,8 @@
 package com.mahdy.cryptoarbitrage.api.controller;
 
-import com.mahdy.cryptoarbitrage.api.facade.BotWebHookFacade;
+import com.mahdy.cryptoarbitrage.api.facade.WebHookFacade;
 import com.mahdy.cryptoarbitrage.api.model.request.BotUpdateRequest;
-import com.mahdy.cryptoarbitrage.core.service.UpdateStrategy;
+import com.mahdy.cryptoarbitrage.core.handler.UpdateRequestHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class BotWebHookController implements BotWebHookFacade {
+public class WebHookController implements WebHookFacade {
 
-    private final UpdateStrategy updateStrategy;
+    private final UpdateRequestHandler updateRequestHandler;
 
     @Override
     public void registerUpdate(BotUpdateRequest botUpdateRequest) {
-        updateStrategy.handleUpdate(botUpdateRequest);
+        updateRequestHandler.handleUpdate(botUpdateRequest);
     }
 }
