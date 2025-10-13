@@ -32,7 +32,7 @@ public class CryptoArbitrageService {
     public void findArbitrageOpportunity() {
 //        TODO: only BTC for now? others require extra impl and not just enum
         BigDecimal nobitexPrice = nobitexProvider.getNobitexMarketStats(Currency.BTC, Currency.RLS);
-        BigDecimal wallexPrice = wallexProvider.getWallexCoinPriceResponse(Currency.BTC);
+        BigDecimal wallexPrice = wallexProvider.getWallexCoinPrice(Currency.BTC);
 
         String text = generateTextMessage(Currency.BTC, nobitexPrice, wallexPrice);
 //        TODO: make this async

@@ -1,6 +1,8 @@
 package com.mahdy.cryptoarbitrage.invoker.provider;
 
+import com.mahdy.cryptoarbitrage.core.model.annotation.TrackExternalApiMetrics;
 import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
+import com.mahdy.cryptoarbitrage.core.model.enumeration.ExternalApi;
 import com.mahdy.cryptoarbitrage.invoker.dto.response.NobitexMarketStatsResponse;
 import com.mahdy.cryptoarbitrage.invoker.feignclient.NobitexFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class NobitexProvider {
 
     private final NobitexFeignClient nobitexFeignClient;
 
+    @TrackExternalApiMetrics(ExternalApi.NOBITEX)
     public BigDecimal getNobitexMarketStats(Currency source, Currency destination) {
         String srcCurrency = source.getLowerCaseName();
         String destCurrency = destination.getLowerCaseName();

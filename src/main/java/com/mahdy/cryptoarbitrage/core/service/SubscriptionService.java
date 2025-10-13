@@ -17,7 +17,7 @@ public class SubscriptionService {
 //    TODO: replace with actual db later
 private final ChatIdProvider chatIdProvider;
 
-//    TODO: move this to db?
+    //    TODO: move this to db? and have actual updating and setting business on it
 private final String subscriptionToken;
 
     public SubscriptionService(BotProvider botProvider, ChatIdProvider chatIdProvider,

@@ -26,9 +26,7 @@ public class UpdateRequestHandler {
 //            TODO: error handling? maybe throw exception and send error message in global handler
             return;
         }
-//        TODO: interfacing and auto handling? requires uniform service api
         if ("sub".equals(commandParts[0])) {
-//            TODO: auto logging of invoked services not manual like here
             log.info("invoked subscribe()");
             handleSubscribe(chatId, commandParts);
         } else if ("unsub".equals(commandParts[0])) {
