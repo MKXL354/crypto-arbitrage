@@ -1,6 +1,8 @@
 package com.mahdy.cryptoarbitrage.core.service;
 
 import com.mahdy.cryptoarbitrage.invoker.provider.BotProvider;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -10,24 +12,22 @@ import org.springframework.util.StringUtils;
  * @since 10/10/2025
  */
 @Service
+@RequiredArgsConstructor
 public class SubscriptionService {
 
     private final BotProvider botProvider;
 
-//    TODO: replace with actual db later
-private final ChatIdProvider chatIdProvider;
+    private final ChatIdProvider chatIdProvider;
 
     //    TODO: move this to db? and have actual updating and setting business on it
-private final String subscriptionToken;
+    @Value("${service.arbitrage.subscription-token}")
+    private String subscriptionToken;
 
-    public SubscriptionService(BotProvider botProvider, ChatIdProvider chatIdProvider,
-                               @Value("${service.arbitrage.subscription-token}") String subscriptionToken) {
+    @PostConstruct
+    public void init() {
         if (!StringUtils.hasText(subscriptionToken)) {
             throw new IllegalStateException("Missing required config: service.arbitrage.subscription-token");
         }
-        this.botProvider = botProvider;
-        this.chatIdProvider = chatIdProvider;
-        this.subscriptionToken = subscriptionToken;
     }
 
     public void subscribe(long chatId, String receivedRegistrationToken) {

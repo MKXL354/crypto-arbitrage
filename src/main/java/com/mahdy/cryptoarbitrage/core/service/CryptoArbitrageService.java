@@ -4,6 +4,7 @@ import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
 import com.mahdy.cryptoarbitrage.invoker.provider.BotProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.NobitexProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.WallexProvider;
+import com.mahdy.cryptoarbitrage.persistence.provider.MetricsProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,17 @@ public class CryptoArbitrageService {
     private final WallexProvider wallexProvider;
     private final BotProvider botProvider;
     private final ChatIdProvider chatIdProvider;
+    private final MetricsProvider metricsProvider;
 
     public void findArbitrageOpportunity() {
 //        TODO: only BTC for now? others require extra impl and not just enum
         BigDecimal nobitexPrice = nobitexProvider.getNobitexMarketStats(Currency.BTC, Currency.RLS);
         BigDecimal wallexPrice = wallexProvider.getWallexCoinPrice(Currency.BTC);
+        if (nobitexPrice.compareTo(wallexPrice) == 0) {
+            return;
+        }
 
+        metricsProvider.incrementArbitrageOpportunitiesCount();
         String text = generateTextMessage(Currency.BTC, nobitexPrice, wallexPrice);
 //        TODO: make this async
         log.info(text);
@@ -56,30 +62,27 @@ public class CryptoArbitrageService {
                 + generateDifferenceText(nobitexPrice, wallexPrice);
     }
 
-    String generateDifferenceText(BigDecimal nobitexPrice, BigDecimal wallexPrice) {
-        String differenceText = "";
-        if (nobitexPrice.compareTo(wallexPrice) != 0) {
-            String biggerName;
-            String smallerName;
-            BigDecimal difference;
-            BigDecimal differencePercent;
-            if (nobitexPrice.compareTo(wallexPrice) > 0) {
-                biggerName = "Nobitex";
-                smallerName = "Wallex";
-                difference = nobitexPrice.subtract(wallexPrice);
-                differencePercent = calculateDifferencePercent(difference, wallexPrice);
-            } else {
-                biggerName = "Wallex";
-                smallerName = "Nobitex";
-                difference = wallexPrice.subtract(nobitexPrice);
-                differencePercent = calculateDifferencePercent(difference, nobitexPrice);
-            }
-            String formattedDifference = NumberFormat.getInstance().format(difference);
-            differenceText = """
-                    %s is more than %s by %s Tomans and %s percent
-                    """.formatted(biggerName, smallerName, formattedDifference, differencePercent);
+    private String generateDifferenceText(BigDecimal nobitexPrice, BigDecimal wallexPrice) {
+        String biggerName;
+        String smallerName;
+        BigDecimal difference;
+        BigDecimal differencePercent;
+        if (nobitexPrice.compareTo(wallexPrice) > 0) {
+            biggerName = "Nobitex";
+            smallerName = "Wallex";
+            difference = nobitexPrice.subtract(wallexPrice);
+            differencePercent = calculateDifferencePercent(difference, wallexPrice);
+        } else {
+            biggerName = "Wallex";
+            smallerName = "Nobitex";
+            difference = wallexPrice.subtract(nobitexPrice);
+            differencePercent = calculateDifferencePercent(difference, nobitexPrice);
         }
-        return differenceText;
+        metricsProvider.updateArbitrageDifferencePercent(differencePercent);
+        String formattedDifference = NumberFormat.getInstance().format(difference);
+        return """
+                %s is more than %s by %s Tomans and %s percent
+                """.formatted(biggerName, smallerName, formattedDifference, differencePercent);
     }
 
     private BigDecimal calculateDifferencePercent(BigDecimal difference, BigDecimal smaller) {

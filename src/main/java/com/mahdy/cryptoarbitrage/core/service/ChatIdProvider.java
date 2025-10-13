@@ -16,3 +16,4 @@ public class ChatIdProvider {
 
     private final Set<Long> chatIds = ConcurrentHashMap.newKeySet();
 }
+//TODO: replace with actual db later

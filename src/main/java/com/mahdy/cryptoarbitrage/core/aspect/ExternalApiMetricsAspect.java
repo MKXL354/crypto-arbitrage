@@ -26,10 +26,10 @@ public class ExternalApiMetricsAspect {
         long start = System.currentTimeMillis();
         try {
             Object result = pjp.proceed();
-            metricsProvider.incrementApiCallCount(api, true);
+            metricsProvider.incrementApiCallsCount(api, true);
             return result;
         } catch (Exception e) {
-            metricsProvider.incrementApiCallCount(api, false);
+            metricsProvider.incrementApiCallsCount(api, false);
             throw e;
         } finally {
             long duration = System.currentTimeMillis() - start;
