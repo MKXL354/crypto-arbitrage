@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 10/10/2025
  */
 @Data
-public class BotUser {
+public class BotUpdateUser {
 
     private long id;
     private boolean is_bot;

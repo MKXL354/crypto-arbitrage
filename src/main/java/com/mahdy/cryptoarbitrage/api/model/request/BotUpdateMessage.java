@@ -10,8 +10,8 @@ import lombok.Data;
 public class BotUpdateMessage {
 
     private long message_id;
-    private BotUser from;
+    private BotUpdateUser from;
     private long date;
-    private BotChat chat;
+    private BotUpdateChat chat;
     private String text;
 }

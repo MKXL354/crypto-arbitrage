@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 10/10/2025
  */
 @Data
-public class BotChat {
+public class BotUpdateChat {
 
     private long id;
     private String type;

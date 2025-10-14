@@ -1,11 +1,13 @@
 package com.mahdy.cryptoarbitrage.core.service;
 
 import com.mahdy.cryptoarbitrage.core.model.ArbitrageOpportunity;
+import com.mahdy.cryptoarbitrage.core.model.BotChat;
 import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
 import com.mahdy.cryptoarbitrage.invoker.provider.BotProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.NobitexProvider;
 import com.mahdy.cryptoarbitrage.invoker.provider.WallexProvider;
 import com.mahdy.cryptoarbitrage.persistence.provider.ArbitrageOpportunityProvider;
+import com.mahdy.cryptoarbitrage.persistence.provider.BotChatProvider;
 import com.mahdy.cryptoarbitrage.persistence.provider.MetricsProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @author Mehdi Kamali
@@ -30,14 +33,14 @@ public class CryptoArbitrageService {
     private final NobitexProvider nobitexProvider;
     private final WallexProvider wallexProvider;
     private final BotProvider botProvider;
-    private final ChatIdProvider chatIdProvider;
+    private final BotChatProvider botChatProvider;
     private final MetricsProvider metricsProvider;
     private final ArbitrageOpportunityProvider arbitrageOpportunityProvider;
 
     public void findArbitrageOpportunity() {
+//        TODO: only BTC and TMN for now? others require extra impl and not just enum
         Currency srcCurrency = Currency.BTC;
         Currency dstCurrency = Currency.TMN;
-//        TODO: only BTC for now? others require extra impl and not just enum
         BigDecimal nobitexPrice = nobitexProvider.getNobitexMarketStats(srcCurrency, Currency.RLS);
         BigDecimal wallexPrice = wallexProvider.getWallexCoinPrice(srcCurrency);
         if (nobitexPrice.compareTo(wallexPrice) == 0) {
@@ -57,9 +60,10 @@ public class CryptoArbitrageService {
 
         String textMessage = generateTextMessage(arbitrageOpportunity);
         log.info("textMessage: {}", textMessage);
-        for (Long chatId : chatIdProvider.getChatIds()) {
+        List<BotChat> allBotChatList = botChatProvider.getAll();
+        for (BotChat botChat : allBotChatList) {
             try {
-                botProvider.sendMessage(chatId, textMessage);
+                botProvider.sendMessage(botChat.getChatId(), textMessage);
             } catch (Exception e) {
                 log.warn(e.getMessage(), e);
             }

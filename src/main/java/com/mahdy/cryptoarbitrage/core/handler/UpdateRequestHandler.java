@@ -1,6 +1,8 @@
 package com.mahdy.cryptoarbitrage.core.handler;
 
+import com.mahdy.cryptoarbitrage.api.model.request.BotUpdateMessage;
 import com.mahdy.cryptoarbitrage.api.model.request.BotUpdateRequest;
+import com.mahdy.cryptoarbitrage.core.model.BotChat;
 import com.mahdy.cryptoarbitrage.core.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +30,32 @@ public class UpdateRequestHandler {
         }
         if ("sub".equals(commandParts[0])) {
             log.info("invoked subscribe()");
-            handleSubscribe(chatId, commandParts);
+            handleSubscribe(botUpdateRequest, commandParts);
         } else if ("unsub".equals(commandParts[0])) {
             log.info("invoked unsubscribe()");
             handleUnsubscribe(chatId);
         }
     }
 
-    private void handleSubscribe(long chatId, String[] commandParts) {
+    private void handleSubscribe(BotUpdateRequest botUpdateRequest, String[] commandParts) {
         if (commandParts.length != 2) {
             return;
         }
         String receivedSubscriptionToken = commandParts[1];
-        subscriptionService.subscribe(chatId, receivedSubscriptionToken);
+        BotChat botChat = generateBotChat(botUpdateRequest);
+        subscriptionService.subscribe(botChat, receivedSubscriptionToken);
     }
 
     private void handleUnsubscribe(long chatId) {
         subscriptionService.unsubscribe(chatId);
+    }
+
+    private BotChat generateBotChat(BotUpdateRequest botUpdateRequest) {
+        BotChat botChat = new BotChat();
+        BotUpdateMessage botUpdateMessage = botUpdateRequest.getMessage();
+        botChat.setUserId(botUpdateMessage.getFrom().getId());
+        botChat.setUserFirstName(botUpdateMessage.getFrom().getFirst_name());
+        botChat.setChatId(botUpdateMessage.getChat().getId());
+        return botChat;
     }
 }
