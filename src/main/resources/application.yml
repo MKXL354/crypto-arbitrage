@@ -1,6 +1,17 @@
 server:
   port: 8080
 
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-billowing-wildflower-adwv8rfp-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
 external:
   wallex:
     base-api-url: https://api.wallex.ir
