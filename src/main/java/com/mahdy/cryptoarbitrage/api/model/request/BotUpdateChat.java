@@ -1,5 +1,6 @@
 package com.mahdy.cryptoarbitrage.api.model.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
 @Data
 public class BotUpdateChat {
 
+    @NotNull
     private long id;
     private String type;
 }

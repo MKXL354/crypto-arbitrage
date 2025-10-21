@@ -1,5 +1,6 @@
 package com.mahdy.cryptoarbitrage.api.model.request;
 
+import jakarta.validation.Valid;
 import lombok.Data;
 
 /**
@@ -10,5 +11,6 @@ import lombok.Data;
 public class BotUpdateRequest {
 
     private long update_id;
+    @Valid
     private BotUpdateMessage message;
 }
