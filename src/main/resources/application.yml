@@ -31,6 +31,9 @@ scheduler:
 service:
   arbitrage:
     subscription-token:
+  command:
+    handler-registry:
+      base-package: com.mahdy.cryptoarbitrage.api.handler
 
 management:
   endpoints:
