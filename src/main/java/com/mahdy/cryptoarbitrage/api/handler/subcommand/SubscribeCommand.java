@@ -1,11 +1,10 @@
 package com.mahdy.cryptoarbitrage.api.handler.subcommand;
 
-import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
 import com.mahdy.cryptoarbitrage.util.command.BaseCommand;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
  * @author Mehdi Kamali
@@ -16,9 +15,6 @@ import picocli.CommandLine.Option;
 @Data
 public class SubscribeCommand extends BaseCommand {
 
-    @Option(names = "--token", required = true)
+    @Parameters(index = "0")
     String token;
-
-    @Option(names = "--currency", required = true)
-    Currency currency;
 }
