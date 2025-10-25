@@ -30,7 +30,8 @@ public class SubscriptionHandler {
 
     @CommandMethod("unsub")
     public void unsub(UnsubscribeCommand unsubscribeCommand) {
-        subscriptionService.unsubscribe(commandContext.getChatId());
+        BotChat botChat = generateBotChat();
+        subscriptionService.unsubscribe(botChat);
     }
 
     private BotChat generateBotChat() {

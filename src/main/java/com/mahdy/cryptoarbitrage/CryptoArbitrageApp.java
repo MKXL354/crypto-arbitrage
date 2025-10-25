@@ -23,7 +23,6 @@ public class CryptoArbitrageApp {
         SpringApplication.run(CryptoArbitrageApp.class, args);
     }
 }
-//TODO: uniform facade for calling exchange apis
 //TODO: support more coins? as limited config and enum values
 //TODO: simplify bot client to button press?
 //TODO: command error handling

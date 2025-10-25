@@ -4,8 +4,7 @@ import com.mahdy.cryptoarbitrage.core.model.ArbitrageOpportunity;
 import com.mahdy.cryptoarbitrage.core.model.BotChat;
 import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
 import com.mahdy.cryptoarbitrage.invoker.provider.BotProvider;
-import com.mahdy.cryptoarbitrage.invoker.provider.NobitexProvider;
-import com.mahdy.cryptoarbitrage.invoker.provider.WallexProvider;
+import com.mahdy.cryptoarbitrage.invoker.provider.ExchangeProvider;
 import com.mahdy.cryptoarbitrage.persistence.provider.ArbitrageOpportunityProvider;
 import com.mahdy.cryptoarbitrage.persistence.provider.BotChatProvider;
 import com.mahdy.cryptoarbitrage.persistence.provider.MetricsProvider;
@@ -30,8 +29,8 @@ import java.util.List;
 @Slf4j
 public class CryptoArbitrageService {
 
-    private final NobitexProvider nobitexProvider;
-    private final WallexProvider wallexProvider;
+    private final ExchangeProvider nobitexProvider;
+    private final ExchangeProvider wallexProvider;
     private final BotProvider botProvider;
     private final BotChatProvider botChatProvider;
     private final MetricsProvider metricsProvider;
@@ -41,8 +40,8 @@ public class CryptoArbitrageService {
 //        TODO: only BTC and TMN for now? others require extra impl and not just enum
         Currency srcCurrency = Currency.BTC;
         Currency dstCurrency = Currency.TMN;
-        BigDecimal nobitexPrice = nobitexProvider.getNobitexMarketStats(srcCurrency, Currency.RLS);
-        BigDecimal wallexPrice = wallexProvider.getWallexCoinPrice(srcCurrency);
+        BigDecimal nobitexPrice = nobitexProvider.getCurrencyPrice(srcCurrency, dstCurrency);
+        BigDecimal wallexPrice = wallexProvider.getCurrencyPrice(srcCurrency, dstCurrency);
         if (nobitexPrice.compareTo(wallexPrice) == 0) {
             return;
         }
@@ -63,7 +62,7 @@ public class CryptoArbitrageService {
         List<BotChat> allBotChatList = botChatProvider.getAll();
         for (BotChat botChat : allBotChatList) {
             try {
-                botProvider.sendMessage(botChat.getChatId(), textMessage);
+                botProvider.sendMessage(botChat, textMessage);
             } catch (Exception e) {
                 log.warn(e.getMessage(), e);
             }

@@ -42,11 +42,12 @@ public class SubscriptionService {
             botChat.setSubbed(true);
             botChat.setLastSubTime(LocalDateTime.now());
             botChatProvider.save(botChat);
-            botProvider.sendMessage(botChat.getChatId(), "subscription successful");
+            botProvider.sendMessage(botChat, "subscription successful");
         }
     }
 
-    public void unsubscribe(long chatId) {
+    public void unsubscribe(BotChat botChat) {
+        long chatId = botChat.getChatId();
         BotChat savedBotChat = botChatProvider.findByChatId(chatId);
         if (savedBotChat == null) {
             return;
@@ -54,6 +55,6 @@ public class SubscriptionService {
         savedBotChat.setSubbed(false);
         savedBotChat.setLastUnsubTime(LocalDateTime.now());
         botChatProvider.save(savedBotChat);
-        botProvider.sendMessage(chatId, "unsubscription successful");
+        botProvider.sendMessage(botChat, "unsubscription successful");
     }
 }
