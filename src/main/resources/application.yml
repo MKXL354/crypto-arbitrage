@@ -26,10 +26,14 @@ external:
 scheduler:
   arbitrage:
     enabled: true
-    interval-secs: 5
+    interval-secs: 20
 
 service:
   arbitrage:
+    supported-currencies:
+      - BTC
+      - ETH
+      - USDT
     subscription-token:
   command:
     handler-registry:

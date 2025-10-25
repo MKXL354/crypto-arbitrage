@@ -25,6 +25,7 @@ public class WallexProvider implements ExchangeProvider {
     @Override
     @TrackExternalApiMetrics(ExternalApi.WALLEX)
     public BigDecimal getCurrencyPrice(Currency source, Currency destination) {
+//        TODO: exception if destination is other than USDT or TMN?
         WallexCoinPriceResponse response = wallexFeignClien.getCoinPrice(source.name());
         BigDecimal tmnPrice = response.getResult().getMarkets().getFirst().getQuotes().get(destination.name()).getPrice();
         return tmnPrice.setScale(0, RoundingMode.DOWN);

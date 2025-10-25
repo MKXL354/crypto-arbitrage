@@ -1,5 +1,6 @@
 package com.mahdy.cryptoarbitrage.core.service;
 
+import com.mahdy.cryptoarbitrage.config.ArbitrageServicePropertiesConfig;
 import com.mahdy.cryptoarbitrage.core.model.ArbitrageOpportunity;
 import com.mahdy.cryptoarbitrage.core.model.BotChat;
 import com.mahdy.cryptoarbitrage.core.model.enumeration.Currency;
@@ -35,11 +36,15 @@ public class CryptoArbitrageService {
     private final BotChatProvider botChatProvider;
     private final MetricsProvider metricsProvider;
     private final ArbitrageOpportunityProvider arbitrageOpportunityProvider;
+    private final ArbitrageServicePropertiesConfig arbitrageServicePropertiesConfig;
 
     public void findArbitrageOpportunity() {
-//        TODO: only BTC and TMN for now? others require extra impl and not just enum
-        Currency srcCurrency = Currency.BTC;
-        Currency dstCurrency = Currency.TMN;
+        for (Currency srcCurrency : arbitrageServicePropertiesConfig.getSupportedCurrencies()) {
+            doFindArbitrageOpportunity(srcCurrency, Currency.TMN);
+        }
+    }
+
+    private void doFindArbitrageOpportunity(Currency srcCurrency, Currency dstCurrency) {
         BigDecimal nobitexPrice = nobitexProvider.getCurrencyPrice(srcCurrency, dstCurrency);
         BigDecimal wallexPrice = wallexProvider.getCurrencyPrice(srcCurrency, dstCurrency);
         if (nobitexPrice.compareTo(wallexPrice) == 0) {

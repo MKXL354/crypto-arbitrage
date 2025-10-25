@@ -10,6 +10,8 @@ import lombok.Getter;
 public enum Currency {
 
     BTC("btc"),
+    ETH("eth"),
+    USDT("usdt"),
     RLS("rls"),
     TMN("tmn");
 
